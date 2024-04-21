@@ -347,19 +347,6 @@ build_ievm() {
     local suffix=""
     local version="${1}"
     case $1 in
-        6|7|8)
-            os="WinXP"
-            if [ "${reuse_xp}" != "yes" ]
-            then
-                if [ "$1" == "6" ]; then unit="10"; fi
-                if [ "$1" == "7" ]; then os="Vista"; fi
-                if [ "$1" == "8" ]; then os="Win7"; fi
-            else
-                archive="IE6_WinXP.zip"
-                unit="10"
-            fi
-            ;;
-        9) os="Win7" ;;
         10|11)
             if [ "${reuse_win7}" != "yes" ]
             then
@@ -432,53 +419,6 @@ build_ievm() {
 
         log "Creating clean snapshot"
         VBoxManage snapshot "${vm}" take clean --description "The initial VM state"
-    fi
-}
-
-# Build the IE6 virtual machine.
-build_ievm_ie6() {
-    boot_auto_ga "IE6 - WinXP"
-    set_xp_password "IE6 - WinXP"
-    shutdown_xp "IE6 - WinXP"
-}
-
-# Build the IE7 virtual machine, reusing the XP VM if requested (the default).
-build_ievm_ie7() {
-    if [ "${reuse_xp}" != "yes" ]
-    then
-        boot_auto_ga "IE7 - Vista"
-    else
-        boot_auto_ga "IE7 - WinXP"
-        set_xp_password "IE7 - WinXP"
-        install_ie_xp "IE7 - WinXP" "http://download.microsoft.com/download/3/8/8/38889dc1-848c-4bf2-8335-86c573ad86d9/IE7-WindowsXP-x86-enu.exe" "ea16789f6fc1d2523f704e8f9afbe906"
-    fi
-}
-
-# Build the IE8 virtual machine, reusing the XP VM if requested (the default).
-build_ievm_ie8() {
-    if [ "${reuse_xp}" != "yes" ]
-    then
-        boot_auto_ga "IE8 - Win7"
-    else
-        boot_auto_ga "IE8 - WinXP"
-        set_xp_password "IE8 - WinXP"
-        install_ie_xp "IE8 - WinXP" "http://download.microsoft.com/download/C/C/0/CC0BD555-33DD-411E-936B-73AC6F95AE11/IE8-WindowsXP-x86-ENU.exe" "616c2e8b12aaa349cd3acb38bf581700"
-    fi
-}
-
-# Build the IE9 virtual machine.
-build_ievm_ie9() {
-    boot_auto_ga "IE9 - Win7"
-}
-
-# Build the IE10 virtual machine, reusing the Win7 VM if requested (the default).
-build_ievm_ie10() {
-    if [ "${reuse_win7}" != "yes" ]
-    then
-        boot_auto_ga "IE10 - Win8"
-    else
-        boot_auto_ga "IE10 - Win7"
-        install_ie_win7 "IE10 - Win7" "https://raw.githubusercontent.com/kbandla/installers/master/MSIE/IE10-Windows6.1-x86-en-us.exe" "0f14b2de0b3cef611b9c1424049e996b"
     fi
 }
 
